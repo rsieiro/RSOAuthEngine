@@ -25,7 +25,8 @@
 
 #import "RSTwitterEngine.h"
 
-// TODO: Put your own Consumer Key and Secret here
+// Never share this information
+#error  Put your Consumer Key and Secret here, then remove this error
 #define TW_CONSUMER_KEY @""
 #define TW_CONSUMER_SECRET @""
 
@@ -64,9 +65,6 @@
 
 - (id)initWithDelegate:(id <RSTwitterEngineDelegate>)delegate
 {
-    NSAssert(![TW_CONSUMER_KEY isEqualToString:@""], @"Please put your own Consumer Key in RSTwitterEngine.m");
-    NSAssert(![TW_CONSUMER_SECRET isEqualToString:@""], @"Please put your own Consumer Secret in RSTwitterEngine.m");
-    
     self = [super initWithHostName:TW_HOSTNAME
                 customHeaderFields:nil
                    signatureMethod:RSOAuthHMAC_SHA1
