@@ -1,12 +1,10 @@
 # RSOAuthEngine
 By Rodrigo Sieiro - [http://rodrigo.sharpcube.com](http://rodrigo.sharpcube.com)
 
----
 ## About
 
 **RSOAuthEngine** is an ARC based OAuth engine for [MKNetworkKit](https://github.com/MugunthKumar/MKNetworkKit). It supports OAuth 1.0a and it's fully compatible with MKNetworkKit existing classes, allowing you to simply inherit **RSOAuthEngine** instead of MKNetworkEngine to get OAuth support.
 
----
 ## Usage
 
 If you already have a project using MKNetworkKit, just add the contents of the RSOAuthEngine directory to your project and change all classes that inherit from MKNetworkEngine to inherit from **RSOAuthEngine** instead. Whenever you need to send an OAuth signed request, replace calls to `enqueueOperation` with `enqueueSignedOperation`.
@@ -27,7 +25,6 @@ A common OAuth flow using **RSOAuthEngine** should go like this:
 
 Alternatively you could use `setAccessToken:secret` after initialization to define a previously stored access token.
 
----
 ## Demo
 
 **RSOAuthEngine** comes with a sample project that demonstrates how to use it to authenticate with Twitter. It includes a basic Twitter engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate **RSOAuthEngine**.
@@ -37,7 +34,6 @@ To build the demo project, follow these steps:
 1. In the project directory, run `git submodule update --init` to retrieve MKNetworkKit (added to the project as a submodule).
 2. Put your consumer key and secret at the top of `RSTwitterEngine.m` and remove the `#error` macro. If you don't have a consumer key/secret, register an app at [https://dev.twitter.com/apps](https://dev.twitter.com/apps) to get a pair. **Important**: you need to add a dummy callback URL to your app when registering, otherwise Twitter won't allow you to send a callback URL in the OAuth request.
 
----
 ## License
 
 **RSOAuthEngine** is licensed under the MIT License. Please give me some kind of attribution if you use it in your project, such as a "thanks" note somewhere. I'd also love to know if you use my code, please drop me a line if you do!
@@ -62,7 +58,6 @@ Full license text follows:
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 
----
 ## Acknowledgments
 
 **RSOAuthEngine** may contain code from [ASI-HTTP-Request-OAuth](https://github.com/keybuk/asi-http-request-oauth) by Scott James Remnant and the iPhone version of [OAuthConsumer](https://github.com/jdg/oauthconsumer) by Jonathan George. I used bits and pieces of the code from both projects as references to write this project.
