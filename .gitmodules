@@ -1,0 +1,3 @@
+[submodule "MKNetworkKit"]
+	path = MKNetworkKit
+	url = git://github.com/rsieiro/MKNetworkKit.git
