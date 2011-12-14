@@ -1,5 +1,6 @@
 # RSOAuthEngine
-By Rodrigo Sieiro - [http://rodrigo.sharpcube.com](http://rodrigo.sharpcube.com)
+By Rodrigo Sieiro - [@rsieiro](http://twitter.com/rsieiro)
+[http://rodrigo.sharpcube.com](http://rodrigo.sharpcube.com)
 
 ## About
 
@@ -29,12 +30,17 @@ Alternatively you could use `setAccessToken:secret` after initialization to defi
 
 ## Demo
 
+<img src="https://github.com/rsieiro/RSOAuthEngine/raw/master/screenshot.png" style="float: left;" alt="Screenshot" />
 **RSOAuthEngine** comes with a sample project that demonstrates how to use it to authenticate with Twitter. It includes a basic Twitter engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate **RSOAuthEngine**.
 
 To build the demo project, follow these steps:
 
 1. In the project directory, run `git submodule update --init` to retrieve MKNetworkKit (added to the project as a submodule).
 2. Put your consumer key and secret at the top of `RSTwitterEngine.m` and remove the `#error` macro. If you don't have a consumer key/secret, register an app at [https://dev.twitter.com/apps](https://dev.twitter.com/apps) to get a pair. **Important**: you need to add a dummy callback URL to your app when registering, otherwise Twitter won't allow you to send a callback URL in the OAuth request.
+
+### Tips
+
+Swipe from left to right in the status message to clear previously stored OAuth tokens.
 
 ## Compatibility
 
