@@ -30,8 +30,10 @@ Alternatively you could use `setAccessToken:secret` after initialization to defi
 
 ## Demo
 
-<img src="https://github.com/rsieiro/RSOAuthEngine/raw/master/screenshot.png" style="float: left;" alt="Screenshot" />
-**RSOAuthEngine** comes with a sample project that demonstrates how to use it to authenticate with Twitter. It includes a basic Twitter engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate **RSOAuthEngine**.
+<table>
+  <tr>
+	<td><img src="https://github.com/rsieiro/RSOAuthEngine/raw/master/screenshot.png" alt="Screenshot" /></td>
+	<td valign="top">**RSOAuthEngine** comes with a sample project that demonstrates how to use it to authenticate with Twitter. It includes a basic Twitter engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate **RSOAuthEngine**.
 
 To build the demo project, follow these steps:
 
@@ -40,7 +42,9 @@ To build the demo project, follow these steps:
 
 ### Tips
 
-Swipe from left to right in the status message to clear previously stored OAuth tokens.
+Swipe from left to right in the status message to clear previously stored OAuth tokens.</td>
+  </tr>
+</table>
 
 ## Compatibility
 
