@@ -32,11 +32,13 @@ Alternatively you could use `setAccessToken:secret` after initialization to defi
 
 <table>
   <tr>
-	<td width="400">
+	<td width="300">
 <img src="https://github.com/rsieiro/RSOAuthEngine/raw/master/screenshot.png" alt="Screenshot" width="396" />
 	</td>
 	<td valign="top">
 <p><strong>RSOAuthEngine</strong> comes with a sample project that demonstrates how to use it to authenticate with Twitter. It includes a basic Twitter engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate <strong>RSOAuthEngine</strong>.</p>
+
+<h3>Building</h3>
 
 <p>To build the demo project, follow these steps:</p>
 
