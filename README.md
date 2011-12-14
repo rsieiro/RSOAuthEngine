@@ -1,5 +1,5 @@
 # RSOAuthEngine
-By Rodrigo Sieiro - [@rsieiro](http://twitter.com/rsieiro)
+By Rodrigo Sieiro - [@rsieiro](http://twitter.com/rsieiro)  
 [http://rodrigo.sharpcube.com](http://rodrigo.sharpcube.com)
 
 ## About
@@ -36,6 +36,8 @@ Alternatively you could use `setAccessToken:secret` after initialization to defi
 <img src="https://github.com/rsieiro/RSOAuthEngine/raw/master/screenshot.png" alt="Screenshot" width="396" />
 	</td>
 	<td valign="top">
+<h3>About</h3>
+
 <p><strong>RSOAuthEngine</strong> comes with a sample project that demonstrates how to use it to authenticate with Twitter. It includes a basic Twitter engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate <strong>RSOAuthEngine</strong>.</p>
 
 <h3>Building</h3>
