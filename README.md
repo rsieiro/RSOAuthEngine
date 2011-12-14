@@ -32,17 +32,23 @@ Alternatively you could use `setAccessToken:secret` after initialization to defi
 
 <table>
   <tr>
-	<td><img src="https://github.com/rsieiro/RSOAuthEngine/raw/master/screenshot.png" alt="Screenshot" /></td>
-	<td valign="top">**RSOAuthEngine** comes with a sample project that demonstrates how to use it to authenticate with Twitter. It includes a basic Twitter engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate **RSOAuthEngine**.
+	<td width="400">
+<img src="https://github.com/rsieiro/RSOAuthEngine/raw/master/screenshot.png" alt="Screenshot" width="396" />
+	</td>
+	<td valign="top">
+<p><strong>RSOAuthEngine</strong> comes with a sample project that demonstrates how to use it to authenticate with Twitter. It includes a basic Twitter engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate <strong>RSOAuthEngine</strong>.</p>
 
-To build the demo project, follow these steps:
+<p>To build the demo project, follow these steps:</p>
 
-1. In the project directory, run `git submodule update --init` to retrieve MKNetworkKit (added to the project as a submodule).
-2. Put your consumer key and secret at the top of `RSTwitterEngine.m` and remove the `#error` macro. If you don't have a consumer key/secret, register an app at [https://dev.twitter.com/apps](https://dev.twitter.com/apps) to get a pair. **Important**: you need to add a dummy callback URL to your app when registering, otherwise Twitter won't allow you to send a callback URL in the OAuth request.
+<ol>
+<li>In the project directory, run <code>git submodule update --init</code> to retrieve MKNetworkKit (added to the project as a submodule).</li>
+<li>Put your consumer key and secret at the top of <code>RSTwitterEngine.m</code> and remove the <code>#error</code> macro. If you don't have a consumer key/secret, register an app at <a href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a> to get a pair. <strong>Important</strong>: you need to add a dummy callback URL to your app when registering, otherwise Twitter won't allow you to send a callback URL in the OAuth request.</li>
+</ol>
 
-### Tips
+<h3>Tips</h3>
 
-Swipe from left to right in the status message to clear previously stored OAuth tokens.</td>
+<p>Swipe from left to right in the status message to clear previously stored OAuth tokens.</p>
+	</td>
   </tr>
 </table>
 
