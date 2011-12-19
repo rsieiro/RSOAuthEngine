@@ -276,10 +276,14 @@
     NSMutableDictionary *postParams = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        tweet, @"status",
                                        nil];
-    
+
+    // If the user marks the option "HTTPS Only" in his/her profile,
+    // Twitter will fail all non-auth requests that use only HTTP
+    // with a misleading "OAuth error". I guess it's a bug.
     MKNetworkOperation *op = [self operationWithPath:TW_STATUS_UPDATE 
                                               params:postParams
-                                          httpMethod:@"POST"];
+                                          httpMethod:@"POST"
+                                                 ssl:YES];
     
     [op onCompletion:^(MKNetworkOperation *completedOperation) {
         completionBlock(nil);
