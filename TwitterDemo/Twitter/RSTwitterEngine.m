@@ -169,7 +169,7 @@
 - (void)authenticateWithCompletionBlock:(RSTwitterEngineCompletionBlock)completionBlock
 {
     // Store the Completion Block to call after Authenticated
-    _oAuthCompletionBlock = completionBlock;
+    _oAuthCompletionBlock = [completionBlock copy];
     
     // First we reset the OAuth token, so we won't send previous tokens in the request
     [self resetOAuthToken];
