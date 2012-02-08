@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B667C5E14E2153F000881C6 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B667C5D14E2153F000881C6 /* NSData+Base64.m */; };
 		5B9770C8149789C200791728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9770C7149789C200791728 /* UIKit.framework */; };
 		5B9770CA149789C200791728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9770C9149789C200791728 /* Foundation.framework */; };
 		5B9770CC149789C200791728 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9770CB149789C200791728 /* CoreGraphics.framework */; };
@@ -25,7 +26,6 @@
 		5B97710E14978DB400791728 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B97710D14978DB400791728 /* CFNetwork.framework */; };
 		5B97711014978DBC00791728 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B97710F14978DBC00791728 /* SystemConfiguration.framework */; };
 		5B97711214978F6100791728 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B97711114978F6100791728 /* Security.framework */; };
-		5B97711914978FFD00791728 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B97711614978FFD00791728 /* NSData+Base64.m */; };
 		5B97711A14978FFD00791728 /* RSOAuthEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B97711814978FFD00791728 /* RSOAuthEngine.m */; };
 		5B97711D1497911300791728 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B97711C1497911300791728 /* WebViewController.m */; };
 		5B9771201497912A00791728 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B97711E1497912A00791728 /* WebViewController.xib */; };
@@ -35,6 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B667C5C14E2153F000881C6 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		5B667C5D14E2153F000881C6 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		5B9770C3149789C200791728 /* TwitterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B9770C7149789C200791728 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5B9770C9149789C200791728 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -66,8 +68,6 @@
 		5B97710D14978DB400791728 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		5B97710F14978DBC00791728 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		5B97711114978F6100791728 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		5B97711514978FFD00791728 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
-		5B97711614978FFD00791728 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		5B97711714978FFD00791728 /* RSOAuthEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RSOAuthEngine.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		5B97711814978FFD00791728 /* RSOAuthEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RSOAuthEngine.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5B97711B1497911300791728 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WebViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -176,6 +176,8 @@
 		5B9770F214978D5400791728 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				5B667C5C14E2153F000881C6 /* NSData+Base64.h */,
+				5B667C5D14E2153F000881C6 /* NSData+Base64.m */,
 				5B9770F514978D5400791728 /* NSDate+RFC1123.h */,
 				5B9770F614978D5400791728 /* NSDate+RFC1123.m */,
 				5B9770F714978D5400791728 /* NSDictionary+RequestEncoding.h */,
@@ -200,21 +202,11 @@
 		5B97711314978FD300791728 /* RSOAuthEngine */ = {
 			isa = PBXGroup;
 			children = (
-				5B97711414978FFD00791728 /* Categories */,
 				5B97711714978FFD00791728 /* RSOAuthEngine.h */,
 				5B97711814978FFD00791728 /* RSOAuthEngine.m */,
 			);
 			path = RSOAuthEngine;
 			sourceTree = SOURCE_ROOT;
-		};
-		5B97711414978FFD00791728 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				5B97711514978FFD00791728 /* NSData+Base64.h */,
-				5B97711614978FFD00791728 /* NSData+Base64.m */,
-			);
-			path = Categories;
-			sourceTree = "<group>";
 		};
 		5B9771211497926200791728 /* Twitter */ = {
 			isa = PBXGroup;
@@ -301,10 +293,10 @@
 				5B97710A14978D5400791728 /* MKNetworkEngine.m in Sources */,
 				5B97710B14978D5400791728 /* MKNetworkOperation.m in Sources */,
 				5B97710C14978D5400791728 /* Reachability.m in Sources */,
-				5B97711914978FFD00791728 /* NSData+Base64.m in Sources */,
 				5B97711A14978FFD00791728 /* RSOAuthEngine.m in Sources */,
 				5B97711D1497911300791728 /* WebViewController.m in Sources */,
 				5B9771241497927C00791728 /* RSTwitterEngine.m in Sources */,
+				5B667C5E14E2153F000881C6 /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +336,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -359,6 +352,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
@@ -370,8 +364,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -380,6 +374,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
