@@ -154,7 +154,7 @@
                                                       otherButtonTitles:nil];
                 [alert show];
             } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TwitterDemo"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"QuickTweet!"
                                                                 message:@"Tweet posted successfully!"
                                                                delegate:nil
                                                       cancelButtonTitle:@"Dismiss"
