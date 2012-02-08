@@ -26,9 +26,9 @@ A common OAuth flow using **RSOAuthEngine** should go like this:
 8. Fill the access token using `fillTokenWithResponseBody:type` (use `RSOAuthAccessToken` as type).
 9. From now on, all requests sent with `enqueueSignedOperation` will be signed with your tokens.
 
-Alternatively you could use `setAccessToken:secret` after initialization to define a previously stored access token.
+Alternatively you could use `setAccessToken:secret` after initialization to define a previously stored access token. If you need or want to use xAuth instead of the request token/authorize workflow, please take a look at the Instapaper demo.
 
-## Demo
+## Twitter Demo
 
 <table>
   <tr>
@@ -38,7 +38,7 @@ Alternatively you could use `setAccessToken:secret` after initialization to defi
 	<td valign="top">
 <h3>About</h3>
 
-<p><strong>RSOAuthEngine</strong> comes with a sample project that demonstrates how to use it to authenticate with Twitter. It includes a basic Twitter engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate <strong>RSOAuthEngine</strong>.</p>
+<p>This sample project demonstrates how to use <strong>RSOAuthEngine</strong> to authenticate with Twitter. It includes a basic engine that implements Twitter's OAuth authentication flow and allows you to post a tweet. It also shows you how to persist the OAuth access token in the Keychain. The Twitter engine should not be considered production code, and is only included to demonstrate <strong>RSOAuthEngine</strong>.</p>
 
 <h3>Building</h3>
 
@@ -56,9 +56,37 @@ Alternatively you could use `setAccessToken:secret` after initialization to defi
   </tr>
 </table>
 
+## Instapaper Demo
+
+<table>
+  <tr>
+	<td width="300">
+<img src="https://github.com/rsieiro/RSOAuthEngine/raw/master/screenshot-2.png" alt="Screenshot" width="396" />
+	</td>
+	<td valign="top">
+<h3>About</h3>
+
+<p>This sample project demonstrates how to use <strong>RSOAuthEngine</strong> with xAuth to authenticate with Instapaper. It includes a basic engine that implements Instapapers's xAuth authentication flow and allows you to add a bookmark to your account. It also shows you how to persist the OAuth access token in the Keychain. The Instapaper engine should not be considered production code, and is only included to demonstrate <strong>RSOAuthEngine</strong>.</p>
+
+<h3>Building</h3>
+
+<p>To build the demo project, follow these steps:</p>
+
+<ol>
+<li>In the project directory, run <code>git submodule update --init</code> to retrieve MKNetworkKit (added to the project as a submodule).</li>
+<li>Put your consumer key and secret at the top of <code>RSInstapaperEngine.m</code> and remove the <code>#error</code> macro. If you don't have a consumer key/secret, register an app at <a href="http://www.instapaper.com/main/request_oauth_consumer_token">this page</a> to get a pair. <strong>Important</strong>: most Instapaper API methods are only available to users with a Subscription account.</li>
+</ol>
+
+<h3>Tips</h3>
+
+<p>Swipe from left to right in the status message to clear previously stored OAuth tokens.</p>
+	</td>
+  </tr>
+</table>
+
 ## Compatibility
 
-Currently this engine has only been tested with Twitter. If you use **RSOAuthEngine** to implement OAuth authentication with another service, please let me know so I can update this session.
+Currently this engine has been tested with Twitter and Instapaper. If you use **RSOAuthEngine** to implement OAuth authentication with another service, please let me know so I can update this session.
 
 ## License
 
