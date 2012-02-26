@@ -97,7 +97,9 @@
                                           nil];
     
     // If there's a token stored for this user, delete it
-    SecItemDelete((__bridge_retained CFDictionaryRef) keychainQuery);
+    CFDictionaryRef query = (__bridge_retained CFDictionaryRef) keychainQuery;
+    SecItemDelete(query);
+    CFRelease(query);
 }
 
 - (void)storeOAuthTokenInKeychain
@@ -113,7 +115,9 @@
     CFTypeRef resData = NULL;
     
     // If there's a token stored for this user, delete it first
-    SecItemDelete((__bridge_retained CFDictionaryRef) keychainQuery);
+    CFDictionaryRef query = (__bridge_retained CFDictionaryRef) keychainQuery;
+    SecItemDelete(query);
+    CFRelease(query);
     
     // Build the token dictionary
     NSMutableDictionary *tokenDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -128,7 +132,9 @@
     
     // Add the token data to the keychain
     // Even if we never use resData, replacing with NULL in the call throws EXC_BAD_ACCESS
-    SecItemAdd((__bridge_retained CFDictionaryRef)keychainQuery, (CFTypeRef *) &resData);
+    query = (__bridge_retained CFDictionaryRef) keychainQuery;
+    SecItemAdd(query, (CFTypeRef *) &resData);
+    CFRelease(query);
 }
 
 - (void)retrieveOAuthTokenFromKeychain
@@ -146,7 +152,9 @@
     CFTypeRef resData = NULL;
     
     // Get the token dictionary from the keychain
-    if (SecItemCopyMatching((__bridge_retained CFDictionaryRef) keychainQuery, (CFTypeRef *) &resData) == noErr)
+    CFDictionaryRef query = (__bridge_retained CFDictionaryRef) keychainQuery;
+    
+    if (SecItemCopyMatching(query, (CFTypeRef *) &resData) == noErr)
     {
         NSData *resultData = (__bridge_transfer NSData *)resData;
         
@@ -162,6 +170,8 @@
             }
         }
     }
+    
+    CFRelease(query);
 }
 
 #pragma mark - OAuth Authentication Flow
