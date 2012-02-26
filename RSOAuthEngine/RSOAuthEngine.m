@@ -156,9 +156,12 @@ static const NSString *oauthSignatureMethodName[] = {
     }];
     
     // Add parameters from the request body
-    [request.readonlyPostDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key urlEncodedString], @"key", [obj urlEncodedString], @"value", nil]];
-    }];
+    // Only if we're POSTing, GET parameters were already added
+    if ([[[request HTTPMethod] uppercaseString] isEqualToString:@"POST"]) {
+        [request.readonlyPostDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key urlEncodedString], @"key", [obj urlEncodedString], @"value", nil]];
+        }];
+    }
     
     // Add parameters from the OAuth header
     [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
