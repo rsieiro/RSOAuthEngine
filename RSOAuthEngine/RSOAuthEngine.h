@@ -75,7 +75,8 @@ typedef enum _RSOOAuthSignatureMethod {
 - (NSString *)customValueForKey:(NSString *)key;
 - (void)fillTokenWithResponseBody:(NSString *)body type:(RSOAuthTokenType)tokenType;
 - (void)setAccessToken:(NSString *)token secret:(NSString *)tokenSecret;
-- (void)signRequest:(MKNetworkOperation *)request;
+- (void)signRequest:(MKNetworkOperation *)request signOnlyWithOAuthParams:(BOOL)onlyOAuth;
 - (void)enqueueSignedOperation:(MKNetworkOperation *)op;
+- (void)enqueueSignedOperation:(MKNetworkOperation *)op signOnlyWithOAuthParams:(BOOL)onlyOAuth;
 
 @end

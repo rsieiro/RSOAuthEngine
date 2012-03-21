@@ -38,7 +38,7 @@ static const NSString *oauthSignatureMethodName[] = {
 
 @interface RSOAuthEngine ()
 
-- (NSString *)signatureBaseStringForRequest:(MKNetworkOperation *)request;
+- (NSString *)signatureBaseStringForRequest:(MKNetworkOperation *)request signOnlyWithOAuthParams:(BOOL)onlyOAuth;
 - (NSString *)generatePlaintextSignatureFor:(NSString *)baseString;
 - (NSString *)generateHMAC_SHA1SignatureFor:(NSString *)baseString;
 - (void)addCustomValue:(NSString *)value withKey:(NSString *)key;
@@ -136,28 +136,30 @@ static const NSString *oauthSignatureMethodName[] = {
 
 #pragma mark - OAuth Signature Generators
 
-- (NSString *)signatureBaseStringForRequest:(MKNetworkOperation *)request
+- (NSString *)signatureBaseStringForRequest:(MKNetworkOperation *)request signOnlyWithOAuthParams:(BOOL)onlyOAuth
 {
     NSMutableArray *parameters = [NSMutableArray array];
-    NSURL *url = [NSURL URLWithString:request.url];
-
+ 
     // Get the base URL String (with no parameters)
     NSArray *urlParts = [request.url componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"?#"]];
     NSString *baseURL = [urlParts objectAtIndex:0];
     
     // Add parameters from the query string
-    NSArray *pairs = [url.query componentsSeparatedByString:@"&"];
-    [pairs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSArray *elements = [obj componentsSeparatedByString:@"="];
-        NSString *key = [[elements objectAtIndex:0] urlEncodedString];
-        NSString *value = (elements.count > 1) ? [[elements objectAtIndex:1] urlEncodedString] : @"";
+ 	if (!onlyOAuth) {
+		NSURL *url = [NSURL URLWithString:request.url];
+	    NSArray *pairs = [url.query componentsSeparatedByString:@"&"];
+    	[pairs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+	        NSArray *elements = [obj componentsSeparatedByString:@"="];
+	        NSString *key = [[elements objectAtIndex:0] urlEncodedString];
+	        NSString *value = (elements.count > 1) ? [[elements objectAtIndex:1] urlEncodedString] : @"";
         
-        [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", value, @"value", nil]];
-    }];
+	        [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", value, @"value", nil]];
+	    }];
+	}
     
     // Add parameters from the request body
     // Only if we're POSTing, GET parameters were already added
-    if ([[[request HTTPMethod] uppercaseString] isEqualToString:@"POST"]) {
+    if (!onlyOAuth && [[[request HTTPMethod] uppercaseString] isEqualToString:@"POST"]) {
         [request.readonlyPostDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key urlEncodedString], @"key", [obj urlEncodedString], @"value", nil]];
         }];
@@ -313,7 +315,7 @@ static const NSString *oauthSignatureMethodName[] = {
     [self setOAuthValue:nil forKey:@"oauth_verifier"];
 }
 
-- (void)signRequest:(MKNetworkOperation *)request
+- (void)signRequest:(MKNetworkOperation *)request signOnlyWithOAuthParams:(BOOL)onlyOAuth
 {
     NSAssert(_oAuthValues && self.consumerKey && self.consumerSecret, @"Please use an initializer with Consumer Key and Consumer Secret.");
 
@@ -322,7 +324,7 @@ static const NSString *oauthSignatureMethodName[] = {
     [self setOAuthValue:[NSString uniqueString] forKey:@"oauth_nonce"];
     
     // Construct the signature base string
-    NSString *baseString = [self signatureBaseStringForRequest:request];
+    NSString *baseString = [self signatureBaseStringForRequest:request signOnlyWithOAuthParams:(BOOL)onlyOAuth];
     
     // Generate the signature
     switch (_signatureMethod) {
@@ -351,10 +353,14 @@ static const NSString *oauthSignatureMethodName[] = {
     [request addHeaders:oauthHeader];
 }
 
-- (void)enqueueSignedOperation:(MKNetworkOperation *)op
+- (void)enqueueSignedOperation:(MKNetworkOperation *)op {
+	[self enqueueSignedOperation:op signOnlyWithOAuthParams:NO];
+}
+
+- (void)enqueueSignedOperation:(MKNetworkOperation *)op signOnlyWithOAuthParams:(BOOL)onlyOAuth
 {
     // Sign and Enqueue the operation
-    [self signRequest:op];
+    [self signRequest:op signOnlyWithOAuthParams:onlyOAuth];
     [self enqueueOperation:op];
 }
 
