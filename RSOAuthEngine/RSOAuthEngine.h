@@ -23,6 +23,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+#import "MKNetworkKit.h"
+
 typedef enum _RSOAuthTokenType
 {
     RSOAuthRequestToken,
@@ -34,6 +36,12 @@ typedef enum _RSOOAuthSignatureMethod {
     RSOAuthPlainText,
     RSOAuthHMAC_SHA1,
 } RSOAuthSignatureMethod;
+
+typedef enum _RSOAuthParameterStyle {
+    RSOAuthParameterStyleHeader,
+    RSOAuthParameterStylePostBody,    
+    RSOAuthParameterStyleQueryString    
+} RSOAuthParameterStyle;
 
 @interface RSOAuthEngine : MKNetworkEngine
 {
@@ -56,6 +64,8 @@ typedef enum _RSOOAuthSignatureMethod {
 @property (readonly) NSString *token;
 @property (readonly) NSString *tokenSecret;
 @property (readonly) NSString *verifier;
+
+@property (nonatomic, assign) RSOAuthParameterStyle parameterStyle;
 
 - (id)initWithHostName:(NSString *)hostName 
     customHeaderFields:(NSDictionary *)headers
