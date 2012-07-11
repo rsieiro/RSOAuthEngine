@@ -417,11 +417,9 @@ static const NSString *oauthSignatureMethodName[] = {
 	[self enqueueSignedOperation:op signOnlyWithOAuthParams:NO];
 }
 
-- (void)enqueueSignedOperation:(MKNetworkOperation *)op signOnlyWithOAuthParams:(BOOL)onlyOAuth
-{
+- (void)enqueueSignedOperation:(MKNetworkOperation *)op signOnlyWithOAuthParams:(BOOL)onlyOAuth {
     // Sign and Enqueue the operation
     [self signRequest:op signOnlyWithOAuthParams:onlyOAuth];
-    NSLog(@"%@", [op curlCommandLineString]);
     [self enqueueOperation:op];
 }
 
