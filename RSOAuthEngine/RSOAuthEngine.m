@@ -36,6 +36,33 @@ static const NSString *oauthSignatureMethodName[] = {
     @"HMAC-SHA1",
 };
 
+@interface MKNetworkOperation (RSO) 
+
+@property (strong, nonatomic) NSMutableURLRequest *request;
+@property (strong, nonatomic) NSMutableDictionary *fieldsToBePosted;
+
+- (void)rs_setURL:(NSURL *)URL;
+- (void)rs_setValue:(NSString *)value forKey:(NSString *)key;
+
+@end
+
+@implementation MKNetworkOperation (RSO) 
+
+@dynamic request;
+@dynamic fieldsToBePosted;
+
+- (void)rs_setURL:(NSURL *)URL {
+    [self.request setURL:URL];
+}
+
+- (void)rs_setValue:(NSString *)value forKey:(NSString *)key {
+    [self.fieldsToBePosted setObject:value forKey:key];
+}
+
+@end
+
+
+
 @interface RSOAuthEngine ()
 
 - (NSString *)signatureBaseStringForRequest:(MKNetworkOperation *)request signOnlyWithOAuthParams:(BOOL)onlyOAuth;
@@ -47,6 +74,8 @@ static const NSString *oauthSignatureMethodName[] = {
 @end
 
 @implementation RSOAuthEngine
+
+@synthesize parameterStyle = _parameterStyle;
 
 #pragma mark - Read-only Properties
 
@@ -115,6 +144,8 @@ static const NSString *oauthSignatureMethodName[] = {
                         nil];
         
         [self resetOAuthToken];
+        
+        self.parameterStyle = RSOAuthParameterStyleHeader;
     }
     
     return self;
@@ -343,21 +374,43 @@ static const NSString *oauthSignatureMethodName[] = {
             break;
     }
     
-    NSMutableArray *oauthHeaders = [NSMutableArray array];
+    if (self.parameterStyle == RSOAuthParameterStyleHeader) {
+        NSMutableArray *oauthHeaders = [NSMutableArray array];        
+        
+        [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if (obj && ![obj isEqualToString:@""]) {
+                [oauthHeaders addObject:[NSString stringWithFormat:@"%@=\"%@\"", [key urlEncodedString], [obj urlEncodedString]]];
+            }
+        }];
+        
+        // Set the Authorization header
+        NSString *oauthData = [NSString stringWithFormat:@"OAuth %@", [oauthHeaders componentsJoinedByString:@", "]];
+        NSDictionary *oauthHeader = [NSDictionary dictionaryWithObjectsAndKeys:oauthData, @"Authorization", nil];
+        
+        [request addHeaders:oauthHeader];        
+        
+    } else if (self.parameterStyle == RSOAuthParameterStylePostBody && [request.readonlyRequest.HTTPMethod caseInsensitiveCompare:@"GET"] != NSOrderedSame) {
+        [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if (obj && ![obj isEqualToString:@""]) {
+                [request rs_setValue:obj forKey:key];
+            }
+        }];        
+        
+    } else { // self.parameterStyle == RSOAuthParameterStyleQueryString
+        NSMutableArray *oauthParams = [NSMutableArray array];        
+        
+        // Fill the authorization header array
+        [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if (obj && ![obj isEqualToString:@""]) {
+                [oauthParams addObject:[NSString stringWithFormat:@"%@=%@", [key urlEncodedString], [obj urlEncodedString]]];
+            }
+        }];        
 
-    // Fill the authorization header array
-    [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        if (obj && ![obj isEqualToString:@""]) {
-            [oauthHeaders addObject:[NSString stringWithFormat:@"%@=\"%@\"", [key urlEncodedString], [obj urlEncodedString]]];
-        }
-    }];
-    
-    // Set the Authorization header
-    NSString *oauthData = [NSString stringWithFormat:@"OAuth %@", [oauthHeaders componentsJoinedByString:@", "]];
-    NSDictionary *oauthHeader = [NSDictionary dictionaryWithObjectsAndKeys:oauthData, @"Authorization", nil];
-    
-    // Add the Authorization header to the request
-    [request addHeaders:oauthHeader];
+        NSString *url = request.url;
+        NSString *separator = [url rangeOfString:@"?"].length > 0 ? @"&" : @"?";
+        url = [NSString stringWithFormat:@"%@%@%@", url, separator, [oauthParams componentsJoinedByString:@"&"]];
+        [request rs_setURL:[NSURL URLWithString:url]];
+    }
 }
 
 - (void)enqueueSignedOperation:(MKNetworkOperation *)op {
@@ -368,6 +421,7 @@ static const NSString *oauthSignatureMethodName[] = {
 {
     // Sign and Enqueue the operation
     [self signRequest:op signOnlyWithOAuthParams:onlyOAuth];
+    NSLog(@"%@", [op curlCommandLineString]);
     [self enqueueOperation:op];
 }
 
