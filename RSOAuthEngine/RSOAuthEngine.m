@@ -178,7 +178,7 @@ static const NSString *oauthSignatureMethodName[] = {
     // Add parameters from the query string
  	if (!onlyOAuth) {
 		NSURL *url = [NSURL URLWithString:request.url];
-	    NSArray *pairs = [url.query componentsSeparatedByString:@"&"];
+	    NSArray *pairs = [[url.query urlDecodedString] componentsSeparatedByString:@"&"];
     	[pairs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 	        NSArray *elements = [obj componentsSeparatedByString:@"="];
 	        NSString *key = [[elements objectAtIndex:0] urlEncodedString];
