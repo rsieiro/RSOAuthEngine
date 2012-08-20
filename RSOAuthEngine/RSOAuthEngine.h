@@ -85,5 +85,6 @@ typedef enum _RSOAuthParameterStyle {
 - (void)setAccessToken:(NSString *)token secret:(NSString *)tokenSecret;
 - (void)signRequest:(MKNetworkOperation *)request;
 - (void)enqueueSignedOperation:(MKNetworkOperation *)op;
+- (NSString *)generateXOAuthStringForURL:(NSString *)url method:(NSString *)method;
 
 @end

@@ -408,4 +408,47 @@ static const NSString *oauthSignatureMethodName[] = {
     [self enqueueOperation:op];
 }
 
+- (NSString *)generateXOAuthStringForURL:(NSString *)url method:(NSString *)method
+{
+    NSAssert(_oAuthValues && self.consumerKey && self.consumerSecret, @"Please use an initializer with Consumer Key and Consumer Secret.");
+    
+    // Generate timestamp and nonce values
+    [self setOAuthValue:[NSString stringWithFormat:@"%ld", time(NULL)] forKey:@"oauth_timestamp"];
+    [self setOAuthValue:[NSString uniqueString] forKey:@"oauth_nonce"];
+    
+    // Construct the signature base string
+    NSString *baseString = [self signatureBaseStringForURL:url method:method parameters:nil];
+    
+    // Generate the signature
+    switch (_signatureMethod) {
+        case RSOAuthHMAC_SHA1:
+            [self setOAuthValue:[self generateHMAC_SHA1SignatureFor:baseString] forKey:@"oauth_signature"];
+            break;
+        default:
+            [self setOAuthValue:[self generatePlaintextSignatureFor:baseString] forKey:@"oauth_signature"];
+            break;
+    }
+    
+    NSMutableArray *oauthHeaders = [NSMutableArray array];
+    
+    // Fill the authorization header array
+    [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        if (obj && ![obj isEqualToString:@""]) {
+            [oauthHeaders addObject:[NSString stringWithFormat:@"%@=\"%@\"", [key urlEncodedString], [obj urlEncodedString]]];
+        }
+    }];
+    
+    // Set the XOAuth String
+    NSString *xOAuthString = [NSString stringWithFormat:@"%@ %@ %@", [method uppercaseString], url, [oauthHeaders componentsJoinedByString:@","]];
+    
+    // Base64-encode the string with no line wrap
+    size_t outputLength;
+    NSData *stringData = [xOAuthString dataUsingEncoding:NSUTF8StringEncoding];
+    char *outputBuffer = NewBase64Encode([stringData bytes], [stringData length], false, &outputLength);
+    NSString *finalString = [[NSString alloc] initWithBytes:outputBuffer length:outputLength encoding:NSASCIIStringEncoding];
+    free(outputBuffer);
+    
+    return finalString;
+}
+
 @end
