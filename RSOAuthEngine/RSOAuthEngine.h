@@ -23,8 +23,6 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#import "MKNetworkKit.h"
-
 typedef enum _RSOAuthTokenType
 {
     RSOAuthRequestToken,
@@ -85,8 +83,7 @@ typedef enum _RSOAuthParameterStyle {
 - (NSString *)customValueForKey:(NSString *)key;
 - (void)fillTokenWithResponseBody:(NSString *)body type:(RSOAuthTokenType)tokenType;
 - (void)setAccessToken:(NSString *)token secret:(NSString *)tokenSecret;
-- (void)signRequest:(MKNetworkOperation *)request signOnlyWithOAuthParams:(BOOL)onlyOAuth;
+- (void)signRequest:(MKNetworkOperation *)request;
 - (void)enqueueSignedOperation:(MKNetworkOperation *)op;
-- (void)enqueueSignedOperation:(MKNetworkOperation *)op signOnlyWithOAuthParams:(BOOL)onlyOAuth;
 
 @end

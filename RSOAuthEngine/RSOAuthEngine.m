@@ -36,10 +36,16 @@ static const NSString *oauthSignatureMethodName[] = {
     @"HMAC-SHA1",
 };
 
+// This category for MKNetworkOperation was added
+// Because we need access to these fields
+// And they are private inside the class
+
 @interface MKNetworkOperation (RSO) 
 
 @property (strong, nonatomic) NSMutableURLRequest *request;
 @property (strong, nonatomic) NSMutableDictionary *fieldsToBePosted;
+@property (strong, nonatomic) NSMutableArray *filesToBePosted;
+@property (strong, nonatomic) NSMutableArray *dataToBePosted;
 
 - (void)rs_setURL:(NSURL *)URL;
 - (void)rs_setValue:(NSString *)value forKey:(NSString *)key;
@@ -50,22 +56,25 @@ static const NSString *oauthSignatureMethodName[] = {
 
 @dynamic request;
 @dynamic fieldsToBePosted;
+@dynamic filesToBePosted;
+@dynamic dataToBePosted;
 
-- (void)rs_setURL:(NSURL *)URL {
+- (void)rs_setURL:(NSURL *)URL
+{
     [self.request setURL:URL];
 }
 
-- (void)rs_setValue:(NSString *)value forKey:(NSString *)key {
+- (void)rs_setValue:(NSString *)value forKey:(NSString *)key
+{
     [self.fieldsToBePosted setObject:value forKey:key];
 }
 
 @end
 
-
-
 @interface RSOAuthEngine ()
 
-- (NSString *)signatureBaseStringForRequest:(MKNetworkOperation *)request signOnlyWithOAuthParams:(BOOL)onlyOAuth;
+- (NSString *)signatureBaseStringForURL:(NSString *)url method:(NSString *)method parameters:(NSMutableArray *)parameters;
+- (NSString *)signatureBaseStringForRequest:(MKNetworkOperation *)request;
 - (NSString *)generatePlaintextSignatureFor:(NSString *)baseString;
 - (NSString *)generateHMAC_SHA1SignatureFor:(NSString *)baseString;
 - (void)addCustomValue:(NSString *)value withKey:(NSString *)key;
@@ -77,11 +86,13 @@ static const NSString *oauthSignatureMethodName[] = {
 
 #pragma mark - Read-only Properties
 
-- (NSString *)consumerKey {
+- (NSString *)consumerKey
+{
     return (_oAuthValues) ? [_oAuthValues objectForKey:@"oauth_consumer_key"] : @"";
 }
 
-- (NSString *)token {
+- (NSString *)token
+{
     return (_oAuthValues) ? [_oAuthValues objectForKey:@"oauth_token"] : @"";
 }
 
@@ -119,6 +130,7 @@ static const NSString *oauthSignatureMethodName[] = {
         
         [self resetOAuthToken];
         
+        // By default, add the OAuth parameters to the Authorization header
         self.parameterStyle = RSOAuthParameterStyleHeader;
     }
     
@@ -141,40 +153,11 @@ static const NSString *oauthSignatureMethodName[] = {
 
 #pragma mark - OAuth Signature Generators
 
-- (NSString *)signatureBaseStringForRequest:(MKNetworkOperation *)request signOnlyWithOAuthParams:(BOOL)onlyOAuth
+- (NSString *)signatureBaseStringForURL:(NSString *)url method:(NSString *)method parameters:(NSMutableArray *)parameters
 {
-    NSMutableArray *parameters = [NSMutableArray array];
- 
-    // Get the base URL String (with no parameters)
-    NSArray *urlParts = [request.url componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"?#"]];
-    NSString *baseURL = [urlParts objectAtIndex:0];
-    
-    // Add parameters from the query string
- 	if (!onlyOAuth) {
-		NSURL *url = [NSURL URLWithString:request.url];
-	    NSArray *pairs = [[url.query urlDecodedString] componentsSeparatedByString:@"&"];
-    	[pairs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-	        NSArray *elements = [obj componentsSeparatedByString:@"="];
-	        NSString *key = [[elements objectAtIndex:0] urlEncodedString];
-	        NSString *value = (elements.count > 1) ? [[elements objectAtIndex:1] urlEncodedString] : @"";
-        
-	        [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", value, @"value", nil]];
-	    }];
-	}
-    
-    // Add parameters from the request body
-    // Only if we're POSTing, GET parameters were already added
-    if (!onlyOAuth && [[[request HTTPMethod] uppercaseString] isEqualToString:@"POST"]) {
-        [request.readonlyPostDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            if ([key isKindOfClass:[NSString class]] && [obj isKindOfClass:[NSString class]]) {
-                [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                       [key urlEncodedString],
-                                       @"key", 
-                                       [obj urlEncodedString], 
-                                       @"value", 
-                                       nil]];
-            }
-        }];
+    // Create a NSMutableArray if not created yet
+    if (!parameters) {
+        parameters = [NSMutableArray arrayWithCapacity:[_oAuthValues count]];
     }
     
     // Add parameters from the OAuth header
@@ -200,11 +183,44 @@ static const NSString *oauthSignatureMethodName[] = {
     
     // Create the signature base string
     NSString *signatureBaseString = [NSString stringWithFormat:@"%@&%@&%@",
-                                     [[request HTTPMethod] uppercaseString],
-                                     [baseURL urlEncodedString],
+                                     [method uppercaseString],
+                                     [url urlEncodedString],
                                      [[normalizedParameters componentsJoinedByString:@"&"] urlEncodedString]];
-
+    
     return signatureBaseString;
+}
+
+- (NSString *)signatureBaseStringForRequest:(MKNetworkOperation *)request
+{
+    NSMutableArray *parameters = [NSMutableArray array];
+    NSURL *url = [NSURL URLWithString:request.url];
+    
+    // Get the base URL String (with no parameters)
+    NSArray *urlParts = [request.url componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"?#"]];
+    NSString *baseURL = [urlParts objectAtIndex:0];
+    
+    // Only include GET and POST fields if there are no files or data to be posted
+    if ([request.filesToBePosted count] == 0 && [request.dataToBePosted count] == 0) {
+        // Add parameters from the query string
+        NSArray *pairs = [[url.query urlDecodedString] componentsSeparatedByString:@"&"];
+        [pairs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            NSArray *elements = [obj componentsSeparatedByString:@"="];
+            NSString *key = [[elements objectAtIndex:0] urlEncodedString];
+            NSString *value = (elements.count > 1) ? [[elements objectAtIndex:1] urlEncodedString] : @"";
+            
+            [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", value, @"value", nil]];
+        }];
+        
+        // Add parameters from the request body
+        // Only if we're POSTing, GET parameters were already added
+        if ([[[request HTTPMethod] uppercaseString] isEqualToString:@"POST"]) {
+            [request.readonlyPostDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key urlEncodedString], @"key", [obj urlEncodedString], @"value", nil]];
+            }];
+        }
+    }
+    
+    return [self signatureBaseStringForURL:baseURL method:[request HTTPMethod] parameters:parameters];
 }
 
 - (NSString *)generatePlaintextSignatureFor:(NSString *)baseString
@@ -327,16 +343,16 @@ static const NSString *oauthSignatureMethodName[] = {
     [self setOAuthValue:nil forKey:@"oauth_verifier"];
 }
 
-- (void)signRequest:(MKNetworkOperation *)request signOnlyWithOAuthParams:(BOOL)onlyOAuth
+- (void)signRequest:(MKNetworkOperation *)request
 {
     NSAssert(_oAuthValues && self.consumerKey && self.consumerSecret, @"Please use an initializer with Consumer Key and Consumer Secret.");
 
     // Generate timestamp and nonce values
-    [self setOAuthValue:[NSString stringWithFormat:@"%d", time(NULL)] forKey:@"oauth_timestamp"];
+    [self setOAuthValue:[NSString stringWithFormat:@"%ld", time(NULL)] forKey:@"oauth_timestamp"];
     [self setOAuthValue:[NSString uniqueString] forKey:@"oauth_nonce"];
     
     // Construct the signature base string
-    NSString *baseString = [self signatureBaseStringForRequest:request signOnlyWithOAuthParams:(BOOL)onlyOAuth];
+    NSString *baseString = [self signatureBaseStringForRequest:request];
     
     // Generate the signature
     switch (_signatureMethod) {
@@ -362,14 +378,12 @@ static const NSString *oauthSignatureMethodName[] = {
         NSDictionary *oauthHeader = [NSDictionary dictionaryWithObjectsAndKeys:oauthData, @"Authorization", nil];
         
         [request addHeaders:oauthHeader];        
-        
     } else if (self.parameterStyle == RSOAuthParameterStylePostBody && [request.readonlyRequest.HTTPMethod caseInsensitiveCompare:@"GET"] != NSOrderedSame) {
         [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             if (obj && ![obj isEqualToString:@""]) {
                 [request rs_setValue:obj forKey:key];
             }
         }];        
-        
     } else { // self.parameterStyle == RSOAuthParameterStyleQueryString
         NSMutableArray *oauthParams = [NSMutableArray array];        
         
@@ -387,13 +401,10 @@ static const NSString *oauthSignatureMethodName[] = {
     }
 }
 
-- (void)enqueueSignedOperation:(MKNetworkOperation *)op {
-	[self enqueueSignedOperation:op signOnlyWithOAuthParams:NO];
-}
-
-- (void)enqueueSignedOperation:(MKNetworkOperation *)op signOnlyWithOAuthParams:(BOOL)onlyOAuth {
+- (void)enqueueSignedOperation:(MKNetworkOperation *)op
+{
     // Sign and Enqueue the operation
-    [self signRequest:op signOnlyWithOAuthParams:onlyOAuth];
+    [self signRequest:op];
     [self enqueueOperation:op];
 }
 
