@@ -40,7 +40,7 @@ typedef enum _RSOOAuthSignatureMethod {
 typedef enum _RSOAuthParameterStyle {
     RSOAuthParameterStyleHeader,
     RSOAuthParameterStylePostBody,    
-    RSOAuthParameterStyleQueryString    
+    RSOAuthParameterStyleQueryString
 } RSOAuthParameterStyle;
 
 @interface RSOAuthEngine : MKNetworkEngine

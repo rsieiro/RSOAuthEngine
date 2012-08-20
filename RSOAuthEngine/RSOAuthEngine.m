@@ -75,40 +75,14 @@ static const NSString *oauthSignatureMethodName[] = {
 
 @implementation RSOAuthEngine
 
-@synthesize parameterStyle = _parameterStyle;
-
 #pragma mark - Read-only Properties
-
-- (RSOAuthTokenType)tokenType {
-    return _tokenType;
-}
-
-- (RSOAuthSignatureMethod)signatureMethod {
-    return _signatureMethod;
-}
 
 - (NSString *)consumerKey {
     return (_oAuthValues) ? [_oAuthValues objectForKey:@"oauth_consumer_key"] : @"";
 }
 
-- (NSString *)consumerSecret {
-    return _consumerSecret;
-}
-
-- (NSString *)callbackURL {
-    return _callbackURL;
-}
-
 - (NSString *)token {
     return (_oAuthValues) ? [_oAuthValues objectForKey:@"oauth_token"] : @"";
-}
-
-- (NSString *)tokenSecret {
-    return _tokenSecret;
-}
-
-- (NSString *)verifier {
-    return _verifier;
 }
 
 #pragma mark - Initialization
