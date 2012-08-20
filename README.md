@@ -28,6 +28,10 @@ A common OAuth flow using **RSOAuthEngine** should go like this:
 
 Alternatively you could use `setAccessToken:secret` after initialization to define a previously stored access token. If you need or want to use xAuth instead of the request token/authorize workflow, please take a look at the Instapaper demo.
 
+### XOAuth
+
+This library also supports generating XOAuth strings (to use with Gmail SMTP and IMAP servers, for example). Just call `generateXOAuthStringForURL:method` with the desired URL and method (GET/POST).
+
 ## Twitter Demo
 
 <table>
@@ -86,7 +90,7 @@ Alternatively you could use `setAccessToken:secret` after initialization to defi
 
 ## Compatibility
 
-Currently this engine has been tested with Twitter and Instapaper. If you use **RSOAuthEngine** to implement OAuth authentication with another service, please let me know so I can update this session.
+Currently this engine has been tested with Twitter and Instapaper. If you use **RSOAuthEngine** to implement OAuth authentication with another service, please let me know so I can update this section.
 
 ## License
 
