@@ -202,11 +202,11 @@ static const NSString *oauthSignatureMethodName[] = {
     // Only include GET and POST fields if there are no files or data to be posted
     if ([request.filesToBePosted count] == 0 && [request.dataToBePosted count] == 0) {
         // Add parameters from the query string
-        NSArray *pairs = [[url.query urlDecodedString] componentsSeparatedByString:@"&"];
+        NSArray *pairs = [url.query componentsSeparatedByString:@"&"];
         [pairs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             NSArray *elements = [obj componentsSeparatedByString:@"="];
-            NSString *key = [[elements objectAtIndex:0] urlEncodedString];
-            NSString *value = (elements.count > 1) ? [[elements objectAtIndex:1] urlEncodedString] : @"";
+            NSString *key = [elements objectAtIndex:0];
+            NSString *value = (elements.count > 1) ? [elements objectAtIndex:1] : @"";
             
             [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", value, @"value", nil]];
         }];
