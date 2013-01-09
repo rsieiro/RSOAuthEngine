@@ -25,7 +25,7 @@
 
 #include <sys/time.h>
 #import <CommonCrypto/CommonHMAC.h>
-#import "NSData+Base64.h"
+#import "NSData+MKBase64.h"
 #import "NSString+MKNetworkKitAdditions.h"
 #import "RSOAuthEngine.h"
 
