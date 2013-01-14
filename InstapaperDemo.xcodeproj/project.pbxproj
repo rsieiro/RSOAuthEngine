@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5B667C4D14E20B59000881C6 /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B667C4B14E20B59000881C6 /* AuthViewController.m */; };
-		5B667C5614E212F6000881C6 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B667C5514E212F6000881C6 /* NSData+Base64.m */; };
 		5B667C6B14E2179D000881C6 /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B667C6D14E2179D000881C6 /* AuthViewController.xib */; };
 		5B9770C8149789C200791728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9770C7149789C200791728 /* UIKit.framework */; };
 		5B9770CA149789C200791728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9770C9149789C200791728 /* Foundation.framework */; };
@@ -32,13 +31,12 @@
 		5B9771241497927C00791728 /* RSInstapaperEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9771231497927C00791728 /* RSInstapaperEngine.m */; };
 		5BAA64D61497D8CB00ED569D /* logo_cube_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BAA64D51497D8CB00ED569D /* logo_cube_57.png */; };
 		5BAA64D81497D8D300ED569D /* logo_cube_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BAA64D71497D8D300ED569D /* logo_cube_114.png */; };
+		CD6AB1D5169D2FB300D2AD3F /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6AB1D4169D2FB300D2AD3F /* NSData+MKBase64.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5B667C4A14E20B59000881C6 /* AuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewController.h; sourceTree = "<group>"; };
 		5B667C4B14E20B59000881C6 /* AuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewController.m; sourceTree = "<group>"; };
-		5B667C5414E212F6000881C6 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
-		5B667C5514E212F6000881C6 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		5B667C6C14E2179D000881C6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AuthViewController.xib; sourceTree = "<group>"; };
 		5B9770C3149789C200791728 /* InstapaperDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstapaperDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B9770C7149789C200791728 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -77,6 +75,8 @@
 		5B9771231497927C00791728 /* RSInstapaperEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RSInstapaperEngine.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5BAA64D51497D8CB00ED569D /* logo_cube_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_cube_57.png; path = ../logo_cube_57.png; sourceTree = "<group>"; };
 		5BAA64D71497D8D300ED569D /* logo_cube_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_cube_114.png; path = ../logo_cube_114.png; sourceTree = "<group>"; };
+		CD6AB1D3169D2FB300D2AD3F /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
+		CD6AB1D4169D2FB300D2AD3F /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MKBase64.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,8 +176,8 @@
 		5B9770F214978D5400791728 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				5B667C5414E212F6000881C6 /* NSData+Base64.h */,
-				5B667C5514E212F6000881C6 /* NSData+Base64.m */,
+				CD6AB1D3169D2FB300D2AD3F /* NSData+MKBase64.h */,
+				CD6AB1D4169D2FB300D2AD3F /* NSData+MKBase64.m */,
 				5B9770F514978D5400791728 /* NSDate+RFC1123.h */,
 				5B9770F614978D5400791728 /* NSDate+RFC1123.m */,
 				5B9770F714978D5400791728 /* NSDictionary+RequestEncoding.h */,
@@ -296,7 +296,7 @@
 				5B97711A14978FFD00791728 /* RSOAuthEngine.m in Sources */,
 				5B9771241497927C00791728 /* RSInstapaperEngine.m in Sources */,
 				5B667C4D14E20B59000881C6 /* AuthViewController.m in Sources */,
-				5B667C5614E212F6000881C6 /* NSData+Base64.m in Sources */,
+				CD6AB1D5169D2FB300D2AD3F /* NSData+MKBase64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
