@@ -23,7 +23,7 @@
 		5B97710914978D5400791728 /* UIAlertView+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9770FC14978D5400791728 /* UIAlertView+MKNetworkKitAdditions.m */; };
 		5B97710A14978D5400791728 /* MKNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9770FE14978D5400791728 /* MKNetworkEngine.m */; };
 		5B97710B14978D5400791728 /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B97710114978D5400791728 /* MKNetworkOperation.m */; };
-		5B97710C14978D5400791728 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B97710414978D5400791728 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		5B97710C14978D5400791728 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B97710414978D5400791728 /* Reachability.m */; };
 		5B97710E14978DB400791728 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B97710D14978DB400791728 /* CFNetwork.framework */; };
 		5B97711014978DBC00791728 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B97710F14978DBC00791728 /* SystemConfiguration.framework */; };
 		5B97711214978F6100791728 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B97711114978F6100791728 /* Security.framework */; };
