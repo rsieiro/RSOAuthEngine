@@ -185,11 +185,10 @@
                                           httpMethod:@"POST"
                                                  ssl:YES];
     
-    [op onCompletion:^(MKNetworkOperation *completedOperation)
-    {
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         // Fill the access token with the returned data
         [self fillTokenWithResponseBody:[completedOperation responseString] type:RSOAuthAccessToken];
-
+        
         // Set the user's screen name
         _screenName = [username copy];
         
@@ -199,9 +198,7 @@
         // Finished, return to previous method
         if (_oAuthCompletionBlock) _oAuthCompletionBlock(nil);
         _oAuthCompletionBlock = nil;
-    } 
-    onError:^(NSError *error)
-    {
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (_oAuthCompletionBlock) _oAuthCompletionBlock(error);
         _oAuthCompletionBlock = nil;
     }];
@@ -265,9 +262,9 @@
                                                  ssl:YES];
     
     // TODO: Actually check the response to get the data or the error
-    [op onCompletion:^(MKNetworkOperation *completedOperation) {
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         completionBlock(nil);
-    } onError:^(NSError *error) {
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         completionBlock(error);
     }];
     

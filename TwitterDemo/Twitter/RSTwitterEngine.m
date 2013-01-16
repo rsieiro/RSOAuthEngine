@@ -189,9 +189,8 @@
                                               params:nil
                                           httpMethod:@"POST"
                                                  ssl:YES];
-    
-    [op onCompletion:^(MKNetworkOperation *completedOperation)
-    {
+
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         // Fill the request token with the returned data
         [self fillTokenWithResponseBody:[completedOperation responseString] type:RSOAuthRequestToken];
         
@@ -199,9 +198,7 @@
         [self.delegate twitterEngine:self statusUpdate:@"Waiting for user authorization..."];
         NSURL *url = [NSURL URLWithString:TW_AUTHORIZE(self.token)];
         [self.delegate twitterEngine:self needsToOpenURL:url];
-    } 
-    onError:^(NSError *error)
-    {
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         completionBlock(error);
         _oAuthCompletionBlock = nil;
     }];
@@ -221,8 +218,7 @@
                                           httpMethod:@"POST"
                                                  ssl:YES];
     
-    [op onCompletion:^(MKNetworkOperation *completedOperation)
-    {
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         // Fill the access token with the returned data
         [self fillTokenWithResponseBody:[completedOperation responseString] type:RSOAuthAccessToken];
         
@@ -235,13 +231,11 @@
         // Finished, return to previous method
         if (_oAuthCompletionBlock) _oAuthCompletionBlock(nil);
         _oAuthCompletionBlock = nil;
-    } 
-    onError:^(NSError *error)
-    {
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (_oAuthCompletionBlock) _oAuthCompletionBlock(error);
         _oAuthCompletionBlock = nil;
     }];
-    
+
     [self.delegate twitterEngine:self statusUpdate:@"Authenticating..."];
     [self enqueueSignedOperation:op];
 }
@@ -295,9 +289,9 @@
                                           httpMethod:@"POST"
                                                  ssl:YES];
     
-    [op onCompletion:^(MKNetworkOperation *completedOperation) {
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
         completionBlock(nil);
-    } onError:^(NSError *error) {
+    } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
         completionBlock(error);
     }];
     
