@@ -45,8 +45,6 @@
 
 @implementation RSInstapaperEngine
 
-@synthesize delegate = _delegate;
-
 #pragma mark - Read-only Properties
 
 - (NSString *)screenName

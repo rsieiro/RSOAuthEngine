@@ -27,10 +27,6 @@
 
 @implementation AuthViewController
 
-@synthesize delegate = _delegate;
-@synthesize usernameField = _usernameField;
-@synthesize passwordField = _passwordField;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

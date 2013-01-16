@@ -27,12 +27,6 @@
 
 @implementation ViewController
 
-@synthesize twitterEngine = _twitterEngine;
-@synthesize webView = _webView;
-@synthesize textView = _textView;
-@synthesize sendButton = _sendButton;
-@synthesize statusLabel = _statusLabel;
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

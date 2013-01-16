@@ -28,11 +28,6 @@
 
 @implementation WebViewController
 
-@synthesize delegate = _delegate;
-@synthesize currentURL = _currentURL;
-@synthesize webView = _webView;
-@synthesize activityIndicator = _activityIndicator;
-
 #pragma mark - Initialization
 
 - (id)initWithURL:(NSURL *)url

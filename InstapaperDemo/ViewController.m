@@ -27,16 +27,6 @@
 
 @implementation ViewController
 
-@synthesize instapaperEngine = _instapaperEngine;
-@synthesize authView = _authView;
-@synthesize urlTextField = _urlTextField;
-@synthesize titleTextField = _titleTextField;
-@synthesize textView = _textView;
-@synthesize sendButton = _sendButton;
-@synthesize clearButton = _clearButton;
-@synthesize statusLabel = _statusLabel;
-@synthesize scrollView = _scrollView;
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

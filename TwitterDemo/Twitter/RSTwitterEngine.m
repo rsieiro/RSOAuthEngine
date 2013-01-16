@@ -52,8 +52,6 @@
 
 @implementation RSTwitterEngine
 
-@synthesize delegate = _delegate;
-
 #pragma mark - Read-only Properties
 
 - (NSString *)screenName
