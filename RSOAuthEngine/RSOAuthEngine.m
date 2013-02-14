@@ -115,18 +115,18 @@ static const NSString *oauthSignatureMethodName[] = {
         _callbackURL = callbackURL;
         _signatureMethod = signatureMethod;
         
-        _oAuthValues = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                        oauthVersion, @"oauth_version",
-                        oauthSignatureMethodName[_signatureMethod], @"oauth_signature_method",
-                        consumerKey, @"oauth_consumer_key",
-                        @"", @"oauth_token",
-                        @"", @"oauth_verifier",
-                        @"", @"oauth_callback",
-                        @"", @"oauth_signature",
-                        @"", @"oauth_timestamp",
-                        @"", @"oauth_nonce",
-                        @"", @"realm",
-                        nil];
+        _oAuthValues = [@{
+            @"oauth_version": oauthVersion,
+            @"oauth_signature_method": oauthSignatureMethodName[_signatureMethod],
+            @"oauth_consumer_key": consumerKey,
+            @"oauth_token": @"",
+            @"oauth_verifier": @"",
+            @"oauth_callback": @"",
+            @"oauth_signature": @"",
+            @"oauth_timestamp": @"",
+            @"oauth_nonce": @"",
+            @"realm": @""
+        } mutableCopy];
         
         [self resetOAuthToken];
         
@@ -161,9 +161,12 @@ static const NSString *oauthSignatureMethodName[] = {
     }
     
     // Add parameters from the OAuth header
-    [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, NSString *obj, BOOL *stop) {
         if ([key hasPrefix:@"oauth_"]  && ![key isEqualToString:@"oauth_signature"] && obj && ![obj isEqualToString:@""]) {
-            [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key mk_urlEncodedString], @"key", [obj mk_urlEncodedString], @"value", nil]];
+            [parameters addObject:@{
+                @"key": [key mk_urlEncodedString],
+                @"value": [obj mk_urlEncodedString]
+            }];
         }
     }];
     
@@ -177,7 +180,7 @@ static const NSString *oauthSignatureMethodName[] = {
     
     // Join sorted components
     NSMutableArray *normalizedParameters = [NSMutableArray array];
-    [parameters enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [parameters enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
         [normalizedParameters addObject:[NSString stringWithFormat:@"%@=%@", [obj objectForKey:@"key"], [obj objectForKey:@"value"]]];
     }];
     
@@ -203,12 +206,12 @@ static const NSString *oauthSignatureMethodName[] = {
     if ([request.filesToBePosted count] == 0 && [request.dataToBePosted count] == 0) {
         // Add parameters from the query string
         NSArray *pairs = [url.query componentsSeparatedByString:@"&"];
-        [pairs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [pairs enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
             NSArray *elements = [obj componentsSeparatedByString:@"="];
             NSString *key = [elements objectAtIndex:0];
             NSString *value = (elements.count > 1) ? [elements objectAtIndex:1] : @"";
             
-            [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:key, @"key", value, @"value", nil]];
+            [parameters addObject:@{@"key": key, @"value": value}];
         }];
         
         // Add parameters from the request body
@@ -308,9 +311,8 @@ static const NSString *oauthSignatureMethodName[] = {
 {
     NSArray *pairs = [body componentsSeparatedByString:@"&"];
 
-    for (NSString *pair in pairs)
-    {
-        NSArray *elements = [pair componentsSeparatedByString:@"="];
+    [pairs enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
+        NSArray *elements = [obj componentsSeparatedByString:@"="];
         NSString *key = [[elements objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString *value = [[elements objectAtIndex:1] urlDecodedString];
         
@@ -323,7 +325,7 @@ static const NSString *oauthSignatureMethodName[] = {
         } else {
             [self addCustomValue:value withKey:key];
         }
-    }
+    }];
     
     _tokenType = tokenType;
     
@@ -377,7 +379,7 @@ static const NSString *oauthSignatureMethodName[] = {
     if (self.parameterStyle == RSOAuthParameterStyleHeader) {
         NSMutableArray *oauthHeaders = [NSMutableArray array];        
         
-        [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, NSString *obj, BOOL *stop) {
             if (obj && ![obj isEqualToString:@""]) {
                 [oauthHeaders addObject:[NSString stringWithFormat:@"%@=\"%@\"", [key mk_urlEncodedString], [obj mk_urlEncodedString]]];
             }
@@ -385,11 +387,11 @@ static const NSString *oauthSignatureMethodName[] = {
         
         // Set the Authorization header
         NSString *oauthData = [NSString stringWithFormat:@"OAuth %@", [oauthHeaders componentsJoinedByString:@", "]];
-        NSDictionary *oauthHeader = [NSDictionary dictionaryWithObjectsAndKeys:oauthData, @"Authorization", nil];
+        NSDictionary *oauthHeader = @{@"Authorization": oauthData};
         
         [request addHeaders:oauthHeader];        
     } else if (self.parameterStyle == RSOAuthParameterStylePostBody && [request.readonlyRequest.HTTPMethod caseInsensitiveCompare:@"GET"] != NSOrderedSame) {
-        [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, NSString *obj, BOOL *stop) {
             if (obj && ![obj isEqualToString:@""]) {
                 [request rs_setValue:obj forKey:key];
             }
@@ -398,7 +400,7 @@ static const NSString *oauthSignatureMethodName[] = {
         NSMutableArray *oauthParams = [NSMutableArray array];        
         
         // Fill the authorization header array
-        [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, NSString *obj, BOOL *stop) {
             if (obj && ![obj isEqualToString:@""]) {
                 [oauthParams addObject:[NSString stringWithFormat:@"%@=%@", [key mk_urlEncodedString], [obj mk_urlEncodedString]]];
             }
@@ -442,7 +444,7 @@ static const NSString *oauthSignatureMethodName[] = {
     NSMutableArray *oauthHeaders = [NSMutableArray array];
     
     // Fill the authorization header array
-    [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+    [_oAuthValues enumerateKeysAndObjectsUsingBlock:^(id key, NSString *obj, BOOL *stop) {
         if (obj && ![obj isEqualToString:@""]) {
             [oauthHeaders addObject:[NSString stringWithFormat:@"%@=\"%@\"", [key mk_urlEncodedString], [obj mk_urlEncodedString]]];
         }
