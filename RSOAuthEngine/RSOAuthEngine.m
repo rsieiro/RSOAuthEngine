@@ -215,16 +215,15 @@ static const NSString *oauthSignatureMethodName[] = {
         // Only if we're POSTing, GET parameters were already added
         if ([[[request HTTPMethod] uppercaseString] isEqualToString:@"POST"]) {
             [request.readonlyPostDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                NSObject *value = obj;
-                if([value isKindOfClass:[NSString class]])
-                {
-                    [parameters addObject:[NSDictionary dictionaryWithObjectsAndKeys:[key mk_urlEncodedString], @"key", [obj mk_urlEncodedString], @"value", nil]];
-                }
-                else
-                {
+                if([obj isKindOfClass:[NSString class]]) {
                     [parameters addObject:@{
-                     @"key":[key mk_urlEncodedString],
-                     @"value":[NSString stringWithFormat:@"%@",value]
+                        @"key": [key mk_urlEncodedString],
+                        @"value": [obj mk_urlEncodedString]
+                     }];
+                } else {
+                    [parameters addObject:@{
+                        @"key": [key mk_urlEncodedString],
+                        @"value": [NSString stringWithFormat:@"%@", obj]
                      }];
                 }
             }];
