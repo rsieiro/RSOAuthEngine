@@ -333,6 +333,9 @@ static const NSString *oauthSignatureMethodName[] = {
     if (_tokenType == RSOAuthAccessToken) {
         [self setOAuthValue:nil forKey:@"oauth_callback"];
         [self setOAuthValue:nil forKey:@"oauth_verifier"];
+    } else if (_tokenType == RSOAuthRequestAccessToken) {
+        [self setOAuthValue:nil forKey:@"oauth_callback"];
+        [self setOAuthValue:self.verifier forKey:@"oauth_verifier"];
     } else {
         [self setOAuthValue:self.callbackURL forKey:@"oauth_callback"];
         [self setOAuthValue:self.verifier forKey:@"oauth_verifier"];

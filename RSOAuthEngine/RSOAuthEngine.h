@@ -26,6 +26,7 @@
 typedef enum _RSOAuthTokenType
 {
     RSOAuthRequestToken,
+    RSOAuthRequestAccessToken,
     RSOAuthAccessToken,
 }
 RSOAuthTokenType;
