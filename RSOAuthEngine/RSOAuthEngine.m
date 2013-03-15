@@ -314,7 +314,7 @@ static const NSString *oauthSignatureMethodName[] = {
     [pairs enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL *stop) {
         NSArray *elements = [obj componentsSeparatedByString:@"="];
         NSString *key = [[elements objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *value = [[elements objectAtIndex:1] urlDecodedString];
+        NSString *value = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
         if ([key isEqualToString:@"oauth_token"]) {
             [self setOAuthValue:value forKey:@"oauth_token"];
