@@ -216,7 +216,7 @@ static const NSString *oauthSignatureMethodName[] = {
         
         // Add parameters from the request body
         // Only if we're POSTing, GET parameters were already added
-        if ([[[request HTTPMethod] uppercaseString] isEqualToString:@"POST"]) {
+        if ([[[request HTTPMethod] uppercaseString] isEqualToString:@"POST"] && [request postDataEncoding] == MKNKPostDataEncodingTypeURL) {
             [request.readonlyPostDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 if([obj isKindOfClass:[NSString class]]) {
                     [parameters addObject:@{
