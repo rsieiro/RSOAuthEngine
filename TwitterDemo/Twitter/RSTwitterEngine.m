@@ -37,7 +37,7 @@
 #define TW_HOSTNAME @"api.twitter.com"
 #define TW_REQUEST_TOKEN @"oauth/request_token"
 #define TW_ACCESS_TOKEN @"oauth/access_token"
-#define TW_STATUS_UPDATE @"1/statuses/update.json"
+#define TW_STATUS_UPDATE @"1.1/statuses/update.json"
 
 // URL to redirect the user for authentication
 #define TW_AUTHORIZE(__TOKEN__) [NSString stringWithFormat:@"https://api.twitter.com/oauth/authorize?oauth_token=%@", __TOKEN__]
