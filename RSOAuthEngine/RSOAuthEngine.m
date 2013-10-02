@@ -459,7 +459,7 @@ static const NSString *oauthSignatureMethodName[] = {
     // Base64-encode the string with no line wrap
     size_t outputLength;
     NSData *stringData = [xOAuthString dataUsingEncoding:NSUTF8StringEncoding];
-    char *outputBuffer = NewBase64Encode([stringData bytes], [stringData length], false, &outputLength);
+    char *outputBuffer = mk_NewBase64Encode([stringData bytes], [stringData length], false, &outputLength);
     NSString *finalString = [[NSString alloc] initWithBytes:outputBuffer length:outputLength encoding:NSASCIIStringEncoding];
     free(outputBuffer);
     
