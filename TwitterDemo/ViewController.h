@@ -30,11 +30,9 @@
 @interface ViewController : UIViewController <RSTwitterEngineDelegate, WebViewControllerDelegate>
 
 @property (strong, nonatomic) RSTwitterEngine *twitterEngine;
-@property (strong, nonatomic) WebViewController *webView;
 
-@property (unsafe_unretained, nonatomic) IBOutlet UITextView *textView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *sendButton;
-@property (unsafe_unretained, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 - (IBAction)sendTweet:(id)sender;
 - (void)swipedRight:(UIGestureRecognizer *)recognizer;

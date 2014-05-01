@@ -48,6 +48,7 @@
 {
     [super viewDidLoad];
     
+    self.title = @"Twitter";
     self.webView.scalesPageToFit = YES;
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.currentURL]];
 }

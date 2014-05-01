@@ -38,6 +38,15 @@
 {
     [super viewDidLoad];
     
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    
+    self.title = @"QuickTweet!";
+    
+    UIBarButtonItem *send = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStyleDone target:self action:@selector(sendTweet:)];
+    self.navigationItem.rightBarButtonItem = send;
+    
     self.twitterEngine = [[RSTwitterEngine alloc] initWithDelegate:self];
     
     // A right swipe on the status label will clear the stored token
@@ -59,7 +68,6 @@
 - (void)viewDidUnload
 {
     [self setTextView:nil];
-    [self setSendButton:nil];
     [self setTwitterEngine:nil];
     [self setStatusLabel:nil];
 
@@ -95,10 +103,10 @@
 
 - (void)twitterEngine:(RSTwitterEngine *)engine needsToOpenURL:(NSURL *)url
 {
-    self.webView = [[WebViewController alloc] initWithURL:url];
-    self.webView.delegate = self;
+    WebViewController *vc = [[WebViewController alloc] initWithURL:url];
+    vc.delegate = self;
     
-    [self presentModalViewController:self.webView animated:YES];
+    [self presentModalViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES];
 }
 
 - (void)twitterEngine:(RSTwitterEngine *)engine statusUpdate:(NSString *)message
@@ -137,7 +145,7 @@
 {
     if (self.twitterEngine)
     {
-        self.sendButton.enabled = NO;
+        self.navigationItem.rightBarButtonItem.enabled = NO;
         
         [self.twitterEngine sendTweet:self.textView.text withCompletionBlock:^(NSError *error) {
             if (error) {
@@ -158,7 +166,7 @@
                 self.textView.text = @"";
             }
             
-            self.sendButton.enabled = YES;
+            self.navigationItem.rightBarButtonItem.enabled = YES;
 
             if (self.twitterEngine.isAuthenticated) {
                 self.statusLabel.text = [NSString stringWithFormat:@"Signed in as @%@.", self.twitterEngine.screenName];
