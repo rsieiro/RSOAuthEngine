@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B412410191295DE001F575F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B41240F191295DE001F575F /* ImageIO.framework */; };
 		5B9770C8149789C200791728 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9770C7149789C200791728 /* UIKit.framework */; };
 		5B9770CA149789C200791728 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9770C9149789C200791728 /* Foundation.framework */; };
 		5B9770CC149789C200791728 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B9770CB149789C200791728 /* CoreGraphics.framework */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B41240F191295DE001F575F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		5B9770C3149789C200791728 /* TwitterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B9770C7149789C200791728 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5B9770C9149789C200791728 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -84,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B412410191295DE001F575F /* ImageIO.framework in Frameworks */,
 				5B97711214978F6100791728 /* Security.framework in Frameworks */,
 				5B97711014978DBC00791728 /* SystemConfiguration.framework in Frameworks */,
 				5B97710E14978DB400791728 /* CFNetwork.framework in Frameworks */,
@@ -118,6 +121,7 @@
 		5B9770C6149789C200791728 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5B41240F191295DE001F575F /* ImageIO.framework */,
 				5B97711114978F6100791728 /* Security.framework */,
 				5B97710F14978DBC00791728 /* SystemConfiguration.framework */,
 				5B97710D14978DB400791728 /* CFNetwork.framework */,
