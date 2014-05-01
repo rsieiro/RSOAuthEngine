@@ -1,6 +1,8 @@
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/project.xcworkspace
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
 /build
 *.pbxuser
 *.mode1v3
@@ -12,3 +14,6 @@ profile
 *.svn
 /.svn/*
 xcuserdata
+Thumbs.db
+*.xcworkspacedata
+*.xccheckout
