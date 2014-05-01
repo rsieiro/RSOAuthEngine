@@ -1,5 +1,5 @@
 # RSOAuthEngine
-By Rodrigo Sieiro - [@cheapo](http://twitter.com/cheapo)
+By Rodrigo Sieiro - [@cheapo](http://twitter.com/cheapo)   
 [http://rodrigo.sharpcube.com](http://rodrigo.sharpcube.com)
 
 ## About
